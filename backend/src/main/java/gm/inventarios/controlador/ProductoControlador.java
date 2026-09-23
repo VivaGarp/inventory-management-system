@@ -4,6 +4,7 @@ import gm.inventarios.modelo.Producto;
 import gm.inventarios.servicio.IProductoServicio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,8 +33,14 @@ public class ProductoControlador {
 
     // Buscar un producto por ID
     @GetMapping("/{id}")
-    public Producto buscarProductoPorId(@PathVariable Integer id) {
-        return productoServicio.buscarProductosPorId(id);
+    public ResponseEntity<Producto> buscarProductoPorId(@PathVariable Integer id) {
+        Producto producto = productoServicio.buscarProductosPorId(id);
+
+        if (producto == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(producto);
     }
 
     // Agregar un nuevo producto
