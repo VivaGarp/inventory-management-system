@@ -20,7 +20,7 @@ Full-stack web application for managing product inventory using Angular, Spring 
 - CSS
 
 ### Backend
-- Java
+- Java 21
 - Spring Boot
 - Spring Data JPA
 - Hibernate
@@ -40,6 +40,13 @@ DELETE /inventario-app/{id}
 ```
 
 ## Installation
+
+### Prerequisites
+
+- Java 21
+- Node.js
+- npm
+- MySQL
 
 ### Backend
 
