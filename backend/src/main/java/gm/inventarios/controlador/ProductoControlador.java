@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -46,7 +48,7 @@ public class ProductoControlador {
 
     // Agregar un nuevo producto
     @PostMapping
-    public Producto agregarProducto(@RequestBody Producto producto) {
+    public Producto agregarProducto(@Valid @RequestBody Producto producto) {
         return productoServicio.guardarProducto(producto);
     }
 
@@ -54,7 +56,7 @@ public class ProductoControlador {
     @PutMapping("/{id}")
     public ResponseEntity<Producto> actualizarProducto(
             @PathVariable Integer id,
-            @RequestBody Producto producto) {
+            @Valid @RequestBody Producto producto) {
 
         Producto productoExistente = productoServicio.buscarProductosPorId(id);
 

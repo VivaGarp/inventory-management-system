@@ -5,14 +5,27 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-@Entity
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
+@Entity
 public class Producto {
+
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer idProducto;
+
+    @NotBlank(message = "La descripción es obligatoria")
     String descripcion;
+
+    @NotNull(message = "El precio es obligatorio")
+    @Positive(message = "El precio debe ser mayor que 0")
     Double precio;
+
+    @NotNull(message = "La existencia es obligatoria")
+    @PositiveOrZero(message = "La existencia no puede ser negativa")
     Integer existencia;
 
     public Producto(){
