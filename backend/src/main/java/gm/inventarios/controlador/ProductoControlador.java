@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("inventario-app") // http://localhost:8080/inventario-app
@@ -58,8 +59,13 @@ public class ProductoControlador {
 
     // Eliminar un producto por ID
     @DeleteMapping("/{id}")
-    public void eliminarProducto(@PathVariable Integer id) {
-        productoServicio.eliminarProductoPorId(id);
+    public ResponseEntity<Void> eliminarProducto(@PathVariable Integer id) {
+        try {
+            productoServicio.eliminarProductoPorId(id);
+            return ResponseEntity.noContent().build();
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
 
