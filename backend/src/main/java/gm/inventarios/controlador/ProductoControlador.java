@@ -48,8 +48,9 @@ public class ProductoControlador {
 
     // Agregar un nuevo producto
     @PostMapping
-    public Producto agregarProducto(@Valid @RequestBody Producto producto) {
-        return productoServicio.guardarProducto(producto);
+    public ResponseEntity<Producto> agregarProducto(@Valid @RequestBody Producto producto) {
+        Producto productoGuardado = productoServicio.guardarProducto(producto);
+        return ResponseEntity.status(201).body(productoGuardado);
     }
 
     // Actualizar un producto existente
