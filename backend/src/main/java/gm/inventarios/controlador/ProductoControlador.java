@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("inventario-app") // http://localhost:8080/inventario-app
-@CrossOrigin(origins = "http://localhost:4200") // permite llamadas desde cualquier cliente (por ejemplo, Angular o React)
+@CrossOrigin(origins = "http://localhost:4200") // Permite solicitudes desde el frontend Angular en desarrollo
 public class ProductoControlador {
 
     private final IProductoServicio productoServicio;
