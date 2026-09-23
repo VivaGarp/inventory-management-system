@@ -52,9 +52,20 @@ public class ProductoControlador {
 
     // Actualizar un producto existente
     @PutMapping("/{id}")
-    public Producto actualizarProducto(@PathVariable Integer id, @RequestBody Producto producto) {
+    public ResponseEntity<Producto> actualizarProducto(
+            @PathVariable Integer id,
+            @RequestBody Producto producto) {
+
+        Producto productoExistente = productoServicio.buscarProductosPorId(id);
+
+        if (productoExistente == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         producto.setIdProducto(id);
-        return productoServicio.guardarProducto(producto);
+        Producto productoActualizado = productoServicio.guardarProducto(producto);
+
+        return ResponseEntity.ok(productoActualizado);
     }
 
     // Eliminar un producto por ID
