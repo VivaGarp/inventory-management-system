@@ -2,86 +2,195 @@
 
 Full-stack web application for managing product inventory using Angular, Spring Boot, and MySQL.
 
+The application provides a REST API for product management and an Angular interface for performing CRUD operations.
+
 ## Features
 
 - List products
 - Add new products
 - Edit existing products
 - Delete products
-- Store inventory data in MySQL
+- Product data validation
+- Global validation error handling
+- MySQL persistence
 - REST API integration between Angular and Spring Boot
+- Backend unit tests
 
 ## Technologies
 
 ### Frontend
-- Angular
-- TypeScript
-- HTML
-- CSS
+
+- Angular 20
+- TypeScript 5.9
+- RxJS
+- Angular Router
+- Angular Forms
+- Bootstrap 5.3.8
 
 ### Backend
+
 - Java 21
-- Spring Boot
+- Spring Boot 3.5.6
 - Spring Data JPA
-- Hibernate
+- Hibernate 6.6
 - Maven
+- JUnit 5
+- Mockito
 
 ### Database
-- MySQL
+
+- MySQL 8.4
+
+## Project Structure
+
+```text
+inventory-management-system/
+├── backend/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/gm/inventarios/
+│   │   │   │   ├── controlador/
+│   │   │   │   ├── excepcion/
+│   │   │   │   ├── modelo/
+│   │   │   │   ├── repositorio/
+│   │   │   │   └── servicio/
+│   │   │   └── resources/
+│   │   └── test/
+│   └── pom.xml
+│
+├── frontend/
+│   ├── src/
+│   │   └── app/
+│   │       ├── agregar-producto/
+│   │       ├── editar-producto/
+│   │       ├── producto-lista/
+│   │       ├── model/
+│   │       └── servicios/
+│   ├── angular.json
+│   └── package.json
+│
+├── .gitignore
+└── README.md
+```
 
 ## REST API
 
+Base URL:
+
 ```text
-GET    /inventario-app
-GET    /inventario-app/{id}
-POST   /inventario-app
-PUT    /inventario-app/{id}
-DELETE /inventario-app/{id}
+http://localhost:8080/inventario-app
 ```
 
-## Installation
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/inventario-app` | List all products |
+| GET | `/inventario-app/{id}` | Get a product by ID |
+| POST | `/inventario-app` | Create a product |
+| PUT | `/inventario-app/{id}` | Update a product |
+| DELETE | `/inventario-app/{id}` | Delete a product |
 
-### Prerequisites
+### Product
+
+Example request body:
+
+```json
+{
+  "descripcion": "Laptop",
+  "precio": 15000,
+  "existencia": 5
+}
+
+## Validation
+
+Products are validated using Jakarta Validation.
+
+- Description is required.
+- Price is required and must be greater than zero.
+- Stock quantity is required and cannot be negative.
+
+Validation errors are handled through a global exception handler and returned with HTTP status `400 Bad Request`.
+
+## Frontend Routes
+
+| Route | Description |
+|---|---|
+| `/productos` | Product list |
+| `/agregar-producto` | Add product |
+| `/editar-producto/:id` | Edit product |
+
+The root route redirects to `/productos`.
+
+## Testing
+
+The backend includes unit tests for the product controller using JUnit 5 and Mockito.
+
+Tests cover:
+
+- Product retrieval
+- Product creation
+- Product update
+- Product deletion
+- `404 Not Found` responses
+
+The application context is also tested with Spring Boot.
+
+Run all backend tests with:
+
+```powershell
+cd backend
+.\mvnw.cmd test
+
+## Requirements
+
+Before running the project, make sure you have installed:
 
 - Java 21
 - Node.js
 - npm
 - MySQL
 
+## Installation
+
+### Clone the repository
+
+```bash
+git clone https://github.com/VivaGarp/inventory-management-system.git
+cd inventory-management-system
+
 ### Backend
 
-Set your MySQL password as an environment variable:
-
-```powershell
-$env:DB_PASSWORD="YOUR_MYSQL_PASSWORD"
-```
-
-Then run:
+From the project root:
 
 ```powershell
 cd backend
 .\mvnw.cmd spring-boot:run
-```
 
-The API runs at:
-
-```text
 http://localhost:8080/inventario-app
-```
 
 ### Frontend
 
-```bash
+Open another terminal from the project root:
+
+```powershell
 cd frontend
 npm ci
 npm start
-```
 
-Open:
-
-```text
 http://localhost:4200
-```
+
+## Build
+
+### Backend
+
+```powershell
+cd backend
+.\mvnw.cmd clean package
+
+### Frontend
+
+```powershell
+cd frontend
+npm run build
 
 ## Author
 
