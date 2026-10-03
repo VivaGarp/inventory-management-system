@@ -1,8 +1,20 @@
 # Inventory Management System
 
-Full-stack web application for managing product inventory using Angular, Spring Boot, and MySQL.
+Full-stack web application for managing product inventory using Angular, Spring Boot, MySQL, and Docker.
 
-The application provides a REST API for product management and an Angular interface for performing CRUD operations.
+The application provides a REST API for product management and an Angular interface for performing complete CRUD operations.
+
+The project is deployed in a production-like environment using Netlify for the frontend, Render for the backend, and Aiven for MySQL database hosting.
+
+## Live Demo / Beta
+
+**Frontend:**  
+https://inventory-management-system-eduardo.netlify.app
+
+**Backend API:**  
+https://inventory-management-system-8exx.onrender.com/inventario-app
+
+> This is a beta deployment intended for demonstration and portfolio purposes.
 
 ## Features
 
@@ -14,7 +26,10 @@ The application provides a REST API for product management and an Angular interf
 - Global validation error handling
 - MySQL persistence
 - REST API integration between Angular and Spring Boot
+- CORS configuration for local and production environments
 - Backend unit tests
+- Dockerized backend
+- Production deployment
 
 ## Technologies
 
@@ -36,10 +51,43 @@ The application provides a REST API for product management and an Angular interf
 - Maven
 - JUnit 5
 - Mockito
+- Docker
 
 ### Database
 
 - MySQL 8.4
+- Aiven
+
+### Deployment
+
+- Netlify — Frontend
+- Render — Backend
+- Aiven — Database
+
+## Architecture
+
+```text
+                    ┌──────────────────────┐
+                    │       Netlify        │
+                    │      Angular 20      │
+                    │      Frontend        │
+                    └──────────┬───────────┘
+                               │ HTTPS
+                               ▼
+                    ┌──────────────────────┐
+                    │        Render        │
+                    │   Spring Boot API    │
+                    │       Java 21        │
+                    │       Docker         │
+                    └──────────┬───────────┘
+                               │ SSL
+                               ▼
+                    ┌──────────────────────┐
+                    │        Aiven         │
+                    │       MySQL 8.4      │
+                    │    inventario_db     │
+                    └──────────────────────┘
+```
 
 ## Project Structure
 
@@ -56,6 +104,7 @@ inventory-management-system/
 │   │   │   │   └── servicio/
 │   │   │   └── resources/
 │   │   └── test/
+│   ├── Dockerfile
 │   └── pom.xml
 │
 ├── frontend/
@@ -66,6 +115,8 @@ inventory-management-system/
 │   │       ├── producto-lista/
 │   │       ├── model/
 │   │       └── servicios/
+│   ├── public/
+│   │   └── _redirects
 │   ├── angular.json
 │   └── package.json
 │
@@ -74,6 +125,16 @@ inventory-management-system/
 ```
 
 ## REST API
+
+### Production
+
+Base URL:
+
+```text
+https://inventory-management-system-8exx.onrender.com/inventario-app
+```
+
+### Local
 
 Base URL:
 
@@ -99,6 +160,7 @@ Example request body:
   "precio": 15000,
   "existencia": 5
 }
+```
 
 ## Validation
 
@@ -120,6 +182,17 @@ Validation errors are handled through a global exception handler and returned wi
 
 The root route redirects to `/productos`.
 
+## CORS
+
+The backend allows requests from:
+
+```text
+http://localhost:4200
+https://inventory-management-system-eduardo.netlify.app
+```
+
+This allows the Angular application to communicate with the Spring Boot API both during local development and after deployment.
+
 ## Testing
 
 The backend includes unit tests for the product controller using JUnit 5 and Mockito.
@@ -139,10 +212,11 @@ Run all backend tests with:
 ```powershell
 cd backend
 .\mvnw.cmd test
+```
 
 ## Requirements
 
-Before running the project, make sure you have installed:
+Before running the project locally, make sure you have installed:
 
 - Java 21
 - Node.js
@@ -151,23 +225,45 @@ Before running the project, make sure you have installed:
 
 ## Installation
 
-### Clone the repository
+### Clone the Repository
 
 ```bash
 git clone https://github.com/VivaGarp/inventory-management-system.git
 cd inventory-management-system
+```
 
-### Backend
+## Backend
 
 From the project root:
 
 ```powershell
 cd backend
 .\mvnw.cmd spring-boot:run
+```
 
+The API will be available at:
+
+```text
 http://localhost:8080/inventario-app
+```
 
-### Frontend
+### Database Configuration
+
+The backend uses environment variables for database configuration.
+
+Required variables:
+
+```text
+DB_HOST
+DB_PORT
+DB_NAME
+DB_USER
+DB_PASSWORD
+```
+
+Do not commit database credentials to the repository.
+
+## Frontend
 
 Open another terminal from the project root:
 
@@ -175,8 +271,13 @@ Open another terminal from the project root:
 cd frontend
 npm ci
 npm start
+```
 
+The application will be available at:
+
+```text
 http://localhost:4200
+```
 
 ## Build
 
@@ -185,13 +286,62 @@ http://localhost:4200
 ```powershell
 cd backend
 .\mvnw.cmd clean package
+```
 
 ### Frontend
 
 ```powershell
 cd frontend
 npm run build
+```
+
+Production files are generated in:
+
+```text
+frontend/dist/inventario-app/browser
+```
+
+## Docker
+
+The backend includes a multi-stage Dockerfile.
+
+The first stage builds the Spring Boot application using Maven and Java 21.
+
+The second stage runs the generated JAR using a Java 21 runtime image.
+
+The container is configured to expose port `8080` and supports the dynamic `PORT` environment variable provided by the deployment platform.
+
+## Deployment
+
+### Frontend
+
+The Angular frontend is deployed on Netlify.
+
+Production URL:
+
+```text
+https://inventory-management-system-eduardo.netlify.app
+```
+
+### Backend
+
+The Spring Boot backend is deployed on Render using Docker.
+
+Production API:
+
+```text
+https://inventory-management-system-8exx.onrender.com/inventario-app
+```
+
+### Database
+
+The production database is hosted on Aiven using MySQL 8.4.
+
+Database credentials are managed through environment variables and are not stored in the repository.
 
 ## Author
 
-Eduardo Ivan De la Paz Sanchez
+**Eduardo Ivan De la Paz Sanchez**
+
+GitHub:  
+https://github.com/VivaGarp
