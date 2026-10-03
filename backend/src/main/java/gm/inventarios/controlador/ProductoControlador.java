@@ -14,7 +14,10 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("inventario-app") // http://localhost:8080/inventario-app
-@CrossOrigin(origins = "http://localhost:4200") // Permite solicitudes desde el frontend Angular en desarrollo
+@CrossOrigin(origins = {
+    "http://localhost:4200",
+    "https://inventory-management-system-eduardo.netlify.app"
+}) // Permite solicitudes desde el frontend en Netlify y Angular en Desarrollo
 public class ProductoControlador {
 
     private final IProductoServicio productoServicio;
