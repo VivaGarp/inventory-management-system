@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductoServicio {
-  private urlBase = "http://localhost:8080/inventario-app";
+  private urlBase = "https://inventory-management-system-8exx.onrender.com/inventario-app";
 
   constructor(private clientehttp: HttpClient) { }
 
